@@ -17,7 +17,6 @@ public class StdDrawDemo {
 		/** Sets up the universe so it goes from 
 		  * -100, -100 up to 100, 100 */
 		StdDraw.setScale(-100, 100);
-
 		/* Clears the drawing window. */
 		StdDraw.clear();
 
