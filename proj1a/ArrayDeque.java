@@ -1,5 +1,5 @@
 public class ArrayDeque<T> {
-    public T[] items;
+    private T[] items;
     private int size;
     private int front;
     private int behind;
@@ -90,9 +90,6 @@ public class ArrayDeque<T> {
         front=minus(front);
         checkSize();
         return a;
-    }
-    public int getLength(){
-        return items.length;
     }
     public T get(int index){
         return(items[behind+index% items.length]);
