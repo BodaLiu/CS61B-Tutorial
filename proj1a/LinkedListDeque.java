@@ -81,11 +81,18 @@ public class LinkedListDeque <T>{
     {
          return getRecursiveHelper(sentinel.next,index);
     }
-    public static void main(String[] args) {
-        LinkedListDeque L=new LinkedListDeque();
-        L.addFirst(0);
-        System.out.println(L.removeLast());
-        L.addFirst(3);
-        System.out.println(L.removeLast());
-    }
+    /**public static void main(String[] args) {
+        LinkedListDeque<Integer> que = new LinkedListDeque<>();
+        for (int i = 0; i <= 7; i++) {
+            que.addFirst(i);
+        }
+
+
+        //que.printDeque();
+        //System.out.println(que.removeLast());
+        que.removeLast();
+        // System.out.println(que.removeLast());
+        System.out.println(que.get(0));
+    }*/
 }
+
