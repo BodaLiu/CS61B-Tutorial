@@ -31,8 +31,8 @@ public class ArrayDeque<T> {
             System.arraycopy(items,behind+1,newItems,newFront,front-behind-1);
         }
         else{
-            System.arraycopy(items,behind+1,newItems,newFront,size-behind-1);
-            System.arraycopy(items,0,newItems,newFront+size-behind-1,front);
+            System.arraycopy(items,behind+1,newItems,newFront, items.length-behind-1);
+            System.arraycopy(items,0,newItems,newFront+items.length-behind-1,front);
         }
         behind=capacity/2-1;
         front=newFront+size;
@@ -76,6 +76,9 @@ public class ArrayDeque<T> {
         }
     }
     public T removeLast(){
+        if(size==0){
+            return null;
+        }
         T a=items[plus(behind)];
         items[plus(behind)]=null;
         size--;
@@ -84,6 +87,9 @@ public class ArrayDeque<T> {
         return a;
     }
     public T removeFirst(){
+        if(size==0){
+            return null;
+        }
         T a=items[minus(front)];
         items[minus(front)]=null;
         size--;
@@ -92,19 +98,21 @@ public class ArrayDeque<T> {
         return a;
     }
     public T get(int index){
-        return(items[behind+index% items.length]);
+        return(items[behind+index% items.length+1]);
 
     }
     public static void main(String[] args) {
-        ArrayDeque<Integer> que=new ArrayDeque<Integer>();
-        for(int i=1;i<=100;i++){
-        que.addFirst(i);
+        ArrayDeque<Integer> que = new ArrayDeque<Integer>();
+        for (int i = 0; i <= 10; i++) {
+            que.addFirst(i);
         }
-        for(int i=1;i<=90;i++) {
-            que.removeFirst();
-        }
+        for (int i = 0; i <= 9; i++){
+            que.removeLast();
+    }
         que.printDeque();
-        System.out.println(que.get(10));
+        //System.out.println(que.removeLast());
+        //System.out.println(que.removeFirst());
+        //System.out.println(0);
     }
 
 }
