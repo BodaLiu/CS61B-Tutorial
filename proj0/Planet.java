@@ -22,7 +22,7 @@ public class Planet{
     mass = p.mass;
     imgFileName = p.imgFileName;
     }
-    public boolean equals(Planet p){         //if the two planets are equal to each other 
+    private boolean equals(Planet p){         //if the two planets are equal to each other 
     	return(this.xxPos==p.xxPos&&this.yyPos==p.yyPos);
     }
     public double calcDistance(Planet p){
