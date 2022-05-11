@@ -2,12 +2,16 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
+import java.util.Random;
 
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
+
+
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
@@ -31,8 +35,29 @@ public class Game {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
+        long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
+        addThings add = new addThings(seed);
+        //TETile[][] finalWorldFrame = null;
+        int WIDTH = 100;
+        int HEIGHT = 50;
+        TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+        TETile[][] ourTiles = new TETile[WIDTH][HEIGHT];
+        for (int x = 0; x < WIDTH; x += 1) {
+            for (int y = 0; y < HEIGHT; y += 1) {
+                ourTiles[x][y] = Tileset.NOTHING;
+            }
+        }
 
-        TETile[][] finalWorldFrame = null;
-        return finalWorldFrame;
+        add.addRandomRooms(ourTiles);
+        Room.sortRooms();
+        for(int i = 1; i < Room.SizeOfRooms ; i++){
+            if(!add.addRandomHallwayRecursion(ourTiles, Room.rooms, i, 1)){
+                i-- ;
+            }
+        }
+        addThings.addDoor(ourTiles);
+        ter.renderFrame(ourTiles);
+        return ourTiles;
     }
 }

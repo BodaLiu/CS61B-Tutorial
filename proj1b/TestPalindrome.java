@@ -25,7 +25,7 @@ public class TestPalindrome {
     public void testIsPalindromeOverload(){
         CharacterComparator c = new OffByOne();
         assertFalse(palindrome.isPalindrome("abca", c));
-        assertTrue(palindrome.isPalindrome("abb", c));
+        assertTrue(palindrome.isPalindrome("ef", c));
         assertTrue(palindrome.isPalindrome("flake", c));
         assertTrue(palindrome.isPalindrome("&%", c));
     }

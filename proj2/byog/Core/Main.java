@@ -1,5 +1,4 @@
 package byog.Core;
-
 import byog.TileEngine.TETile;
 
 /** This is the main entry point for the program. This class simply parses
