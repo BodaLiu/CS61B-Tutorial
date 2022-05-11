@@ -294,7 +294,7 @@ public class addThings {
         Room room;
         do{
         int x1 = RANDOM.nextInt(80);
-        int y1 = RANDOM.nextInt(38);
+        int y1 = RANDOM.nextInt(37);
         int length = RANDOM.nextInt(7);
         int height = RANDOM.nextInt(7);
         pos p1 = new pos(x1, y1+5);
