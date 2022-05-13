@@ -2,7 +2,6 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import byog.lab5.RandomWorldDemo;
 import java.util.Random;
 
 public class addThings {
@@ -109,6 +108,18 @@ public class addThings {
         }
         return true;
     }
+    public static boolean checkContent(TETile[][] tiles, pos p1,pos p2){
+        pos leftP = new pos(p1.X + 1, p2.Y - 1);
+        pos rightP = new pos(p2.X - 1, p2.Y - 1);
+        while(leftP.Y > p1.Y){
+            if(!addThings.checkXLine(tiles, leftP, rightP)){
+                return false;
+            }
+            leftP.Y --;
+            rightP.Y --;
+        }
+        return true;
+    }
     public static void addStraightXLine(TETile[][] tiles, pos p1, pos p2, TETile T) {
         if (p1.Y != p2.Y) {
             throw new RuntimeException("addStraightXline method must have two position with same Y!");
@@ -192,15 +203,16 @@ public class addThings {
             brick1Neighbors[0] = new pos(brick1.X, brick1.Y + 1);
             brick1Neighbors[1] = new pos(brick1.X, brick1.Y - 1);
         }
-        if(tiles[brick1.X + 1][brick1.Y] == Tileset.WALL || tiles[brick1.X + 1][brick1.Y] == Tileset.WAYWALL){
+        else if(tiles[brick1.X + 1][brick1.Y] == Tileset.WALL || tiles[brick1.X + 1][brick1.Y] == Tileset.WAYWALL){
             brick1Neighbors[0] = new pos(brick1.X + 1, brick1.Y);
             brick1Neighbors[1] = new pos(brick1.X - 1, brick1.Y);
         }
+
         if(tiles[brick2.X][brick2.Y + 1] == Tileset.WALL || tiles[brick2.X][brick2.Y + 1] == Tileset.WAYWALL){
             brick2Neighbors[0] = new pos(brick2.X, brick2.Y + 1);
             brick2Neighbors[1] = new pos(brick2.X, brick2.Y - 1);
         }
-        if(tiles[brick2.X + 1][brick2.Y] == Tileset.WALL || tiles[brick2.X + 1][brick2.Y] == Tileset.WAYWALL){
+        else if(tiles[brick2.X + 1][brick2.Y] == Tileset.WALL || tiles[brick2.X + 1][brick2.Y] == Tileset.WAYWALL){
             brick2Neighbors[0] = new pos(brick2.X + 1, brick2.Y);
             brick2Neighbors[1] = new pos(brick2.X - 1, brick2.Y);
         }
@@ -274,7 +286,7 @@ public class addThings {
             return false;
         }
         do {
-            if(i == 200){
+            if(i == 500){
                 break;
             }
             int randomNumber1 = RANDOM.nextInt(1000);
@@ -285,12 +297,12 @@ public class addThings {
             i++;
         }
         while (!addHallway(ourTiles, brick1, brick2, randomWay));
-        if(i < 200){
+        if(i < 500){
             return true;
         }
         return addRandomHallwayRecursion(ourTiles, rooms, j, delta + 1);
     }
-    public Room addRandomRoom(TETile[][] tiles){
+    public static Room addRandomRoom(TETile[][] tiles){
         Room room;
         do{
         int x1 = RANDOM.nextInt(80);
@@ -304,7 +316,7 @@ public class addThings {
         room.addInRoom();
         return room;
     }
-    public void addRandomRooms(TETile[][] tiles){
+    public static void addRandomRooms(TETile[][] tiles){
         int ran = RANDOM.nextInt(10);
         for(int i = 1; i <= 25 + ran; i++){
            addRandomRoom(tiles);
@@ -312,30 +324,38 @@ public class addThings {
     }
 
     public static void addDoor(TETile[][] tiles){
-        int randomNumber = RANDOM.nextInt(100);
-        int num = RANDOM.nextInt(Room.SizeOfRooms);
+        int randomNumber ;
+        int num ;
         pos doorPos;
         do{
+            randomNumber = RANDOM.nextInt(100);
+            num = RANDOM.nextInt(Room.SizeOfRooms);
             doorPos = Room.rooms[num].getRandomBrick(randomNumber);
         }while(tiles[doorPos.X][doorPos.Y] != Tileset.WALL);
         tiles[doorPos.X][doorPos.Y] = Tileset.LOCKED_DOOR;
     }
-
+    public static void addPlayer(TETile[][] tiles){
+        int num = RANDOM.nextInt(Room.SizeOfRooms);
+        int randomX = RANDOM.nextInt(Room.rooms[num].p2.X - Room.rooms[num].p1.X - 1);
+        int randomY = RANDOM.nextInt(Room.rooms[num].p2.Y - Room.rooms[num].p1.Y - 1);
+        tiles[Room.rooms[num].p1.X + randomX + 1][Room.rooms[num].p1.Y + randomY + 1] = Tileset.PLAYER;
+    }
     //test method
     public static void main(String[] args) {
+        System.out.println();
         //initialize
         int WIDTH = 100;
         int HEIGHT = 50;
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] ourTiles = new TETile[WIDTH][HEIGHT];
-        addThings add = new addThings(1235);
+        addThings add = new addThings(11381495);
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
                 ourTiles[x][y] = Tileset.NOTHING;
             }
         }
-        for(int i = 1; i <= 5; i++){
+        for(int i = 1; i <= 15; i++){
         add.addRandomRoom(ourTiles);
         }
 

@@ -35,8 +35,11 @@ public class Game {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
-        addThings add = new addThings(seed);
+
+
+       // long seed = Long.parseLong(input.replaceAll("[^0-9]", ""));
+        long t = System.currentTimeMillis();
+        addThings add = new addThings(t);
         //TETile[][] finalWorldFrame = null;
         int WIDTH = 100;
         int HEIGHT = 50;
@@ -48,15 +51,16 @@ public class Game {
                 ourTiles[x][y] = Tileset.NOTHING;
             }
         }
-
-        add.addRandomRooms(ourTiles);
+        addThings.addRandomRooms(ourTiles);
         Room.sortRooms();
         for(int i = 1; i < Room.SizeOfRooms ; i++){
             if(!add.addRandomHallwayRecursion(ourTiles, Room.rooms, i, 1)){
-                i-- ;
+                i--;
             }
         }
+
         addThings.addDoor(ourTiles);
+        addThings.addPlayer(ourTiles);
         ter.renderFrame(ourTiles);
         return ourTiles;
     }

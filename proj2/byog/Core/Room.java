@@ -71,9 +71,10 @@ public class Room {
         int randomX = randomNumber % WallPos.size();
         return WallPos.get(randomX);
     }
+
     public boolean addRoom(TETile[][] tiles){
         //check
-        if(!(addThings.checkAddLine(tiles, p1, p2, 1) && addThings.checkAddLine(tiles, p1, p2, 0))){
+        if(!(addThings.checkAddLine(tiles, p1, p2, 1) && addThings.checkAddLine(tiles, p1, p2, 0) &&addThings.checkContent(tiles, p1,p2))){
             return false;
         }
         //add walls

@@ -1,5 +1,5 @@
 package byog.Core;
-import java.util.ArrayList;
+import java.util.Random;
 public class pos {
     public int X;
     public int Y;
@@ -15,11 +15,5 @@ public class pos {
 
 
     //check method
-    public static void main(String[] args) {
-        String s = "12345";
-        long longs =Long.parseLong(s);
-        long a = longs + 1;
-        System.out.println(a);
-    }
 
 }
