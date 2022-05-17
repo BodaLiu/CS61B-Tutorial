@@ -3,15 +3,16 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import java.util.ArrayList;
+import edu.princeton.cs.introcs.StdDraw;
 import java.util.Random;
 
 public class Room {
-    public pos p1;
-    public pos p2;
+    pos p1;
+    pos p2;
     private int num = 0;
-    public ArrayList<pos> WallPos;
+    ArrayList<pos> WallPos;
     public static Room[] rooms = new Room[40];
-    public static int SizeOfRooms = 0;
+    static int SizeOfRooms = 0;
     public Room(pos p1, pos p2){
         int smallerY;
         int biggerY;
@@ -67,12 +68,12 @@ public class Room {
 
     }
     //something wrong with random
-    public pos getRandomBrick(int randomNumber){
+    pos getRandomBrick(int randomNumber){
         int randomX = randomNumber % WallPos.size();
         return WallPos.get(randomX);
     }
 
-    public boolean addRoom(TETile[][] tiles){
+    boolean addRoom(TETile[][] tiles){
         //check
         if(!(addThings.checkAddLine(tiles, p1, p2, 1) && addThings.checkAddLine(tiles, p1, p2, 0) &&addThings.checkContent(tiles, p1,p2))){
             return false;
@@ -97,7 +98,7 @@ public class Room {
         return distanceSquare;
     }
 
-    public static void sortRooms(){
+    static void sortRooms(){
      Room[] sortedRoom = new Room[40];
      //get smallestXI
      int smallestXI = 0;
@@ -131,12 +132,12 @@ public class Room {
          rooms = sortedRoom;
     }
 
-    public void addInRoom(){
+    void addInRoom(){
         rooms[SizeOfRooms] = this;
         num = SizeOfRooms;
         SizeOfRooms++;
     }
-    public static void printRoom(int i){
+    static void printRoom(int i){
         System.out.println("rooms[" + i + "].p1 is");
         System.out.print(Room.rooms[i].p1.X);
         System.out.print(' ');
@@ -149,7 +150,7 @@ public class Room {
         System.out.println();
         System.out.println(Room.rooms[i].num);
     }
-    public static void deleteStraightXLine(TETile[][] tiles, pos p1, pos p2) {
+    static void deleteStraightXLine(TETile[][] tiles, pos p1, pos p2) {
         if (p1.Y != p2.Y) {
             throw new RuntimeException("addStraightXline method must have two position with same Y!");
         }
@@ -168,7 +169,7 @@ public class Room {
             }
         }
     }
-    public static void deleteStraightYLine(TETile[][] tiles, pos p1, pos p2) {
+    static void deleteStraightYLine(TETile[][] tiles, pos p1, pos p2) {
         if (p1.X != p2.X) {
             throw new RuntimeException("addStraightXline method must have two position with same Y!");
         }
@@ -204,7 +205,7 @@ public class Room {
             deleteStraightYLine(tiles, p2, middlePoint);
         }
     }
-    public void deleteRoom(TETile[][] tiles){
+    void deleteRoom(TETile[][] tiles){
         deleteLine(tiles,p1,p2,0);
         deleteLine(tiles,p1,p2,1);
         pos leftP = new pos(p1.X + 1, p2.Y - 1);

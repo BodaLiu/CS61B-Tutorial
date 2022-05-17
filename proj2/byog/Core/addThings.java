@@ -93,7 +93,7 @@ public class addThings {
         }
         return true;
     }
-    public static boolean checkAddLine(TETile[][] tiles, pos p1, pos p2, int way, TETile T) {
+    static boolean checkAddLine(TETile[][] tiles, pos p1, pos p2, int way, TETile T) {
         if(p1.X == p2.X || p1.Y == p2.Y){
             return checkXLine(tiles, p2, p1, T) && checkYLine(tiles, p1, p2, T);
         }
@@ -108,7 +108,7 @@ public class addThings {
         }
         return true;
     }
-    public static boolean checkContent(TETile[][] tiles, pos p1,pos p2){
+    static boolean checkContent(TETile[][] tiles, pos p1,pos p2){
         pos leftP = new pos(p1.X + 1, p2.Y - 1);
         pos rightP = new pos(p2.X - 1, p2.Y - 1);
         while(leftP.Y > p1.Y){
@@ -323,23 +323,65 @@ public class addThings {
         }
     }
 
-    public static void addDoor(TETile[][] tiles){
-        int randomNumber ;
-        int num ;
+
+    public static class Door {
         pos doorPos;
-        do{
-            randomNumber = RANDOM.nextInt(100);
-            num = RANDOM.nextInt(Room.SizeOfRooms);
-            doorPos = Room.rooms[num].getRandomBrick(randomNumber);
-        }while(tiles[doorPos.X][doorPos.Y] != Tileset.WALL);
-        tiles[doorPos.X][doorPos.Y] = Tileset.LOCKED_DOOR;
+        public Door(TETile[][] tiles){
+            int randomNumber ;
+            int num ;
+            do{
+                randomNumber = RANDOM.nextInt(100);
+                num = RANDOM.nextInt(Room.SizeOfRooms);
+                doorPos = Room.rooms[num].getRandomBrick(randomNumber);
+            }while(tiles[doorPos.X][doorPos.Y] != Tileset.WALL);
+            tiles[doorPos.X][doorPos.Y] = Tileset.LOCKED_DOOR;
+        }
     }
-    public static void addPlayer(TETile[][] tiles){
-        int num = RANDOM.nextInt(Room.SizeOfRooms);
-        int randomX = RANDOM.nextInt(Room.rooms[num].p2.X - Room.rooms[num].p1.X - 1);
-        int randomY = RANDOM.nextInt(Room.rooms[num].p2.Y - Room.rooms[num].p1.Y - 1);
-        tiles[Room.rooms[num].p1.X + randomX + 1][Room.rooms[num].p1.Y + randomY + 1] = Tileset.PLAYER;
+
+
+    public static class player {
+        pos p;
+        public player(TETile[][] tiles) {
+            int num = RANDOM.nextInt(Room.SizeOfRooms);
+            int randomX = RANDOM.nextInt(Room.rooms[num].p2.X - Room.rooms[num].p1.X - 1);
+            int randomY = RANDOM.nextInt(Room.rooms[num].p2.Y - Room.rooms[num].p1.Y - 1);
+            tiles[Room.rooms[num].p1.X + randomX + 1][Room.rooms[num].p1.Y + randomY + 1] = Tileset.PLAYER;
+            p = new pos(Room.rooms[num].p1.X + randomX + 1, Room.rooms[num].p1.Y + randomY + 1);
+        }
+        void up(TETile[][] tiles){
+            if(tiles[p.X][p.Y + 1] != Tileset.WALL && tiles[p.X][p.Y + 1] != Tileset.WAYWALL) {
+                tiles[p.X][p.Y] = Tileset.FLOOR;
+                tiles[p.X][p.Y + 1] = Tileset.PLAYER;
+                p.Y ++;
+            }
+        }
+
+        void down(TETile[][] tiles){
+            if(tiles[p.X][p.Y - 1] != Tileset.WALL && tiles[p.X][p.Y - 1] != Tileset.WAYWALL) {
+                tiles[p.X][p.Y] = Tileset.FLOOR;
+                tiles[p.X][p.Y - 1] = Tileset.PLAYER;
+                p.Y --;
+            }
+        }
+
+        void right(TETile[][] tiles){
+            if(tiles[p.X + 1][p.Y] != Tileset.WALL && tiles[p.X + 1][p.Y] != Tileset.WAYWALL) {
+                tiles[p.X][p.Y] = Tileset.FLOOR;
+                tiles[p.X + 1][p.Y] = Tileset.PLAYER;
+                p.X ++;
+            }
+        }
+
+        void left(TETile[][] tiles){
+            if(tiles[p.X - 1][p.Y] != Tileset.WALL && tiles[p.X - 1][p.Y] != Tileset.WAYWALL) {
+                tiles[p.X][p.Y] = Tileset.FLOOR;
+                tiles[p.X - 1][p.Y] = Tileset.PLAYER;
+                p.X --;
+            }
+        }
     }
+
+
     //test method
     public static void main(String[] args) {
         System.out.println();

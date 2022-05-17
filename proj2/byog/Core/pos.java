@@ -13,6 +13,23 @@ public class pos {
         this.Y = 0;
     }
 
+    @Override
+    public boolean equals(Object x) {
+        if (this == x) return true;
+        if (x == null) return false;
+        if (this.getClass() != x.getClass()) {
+            return false;
+        }
+        pos that = (pos) x;
+        if (this.X != that.X) {
+            return false;
+        }
+        if (this.Y != that.Y) {
+            return false;
+        }
+        return true;
+    }
+
 
     //check method
 
